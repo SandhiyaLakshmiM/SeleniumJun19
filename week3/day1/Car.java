@@ -2,7 +2,8 @@ package week3.day1;
 
 public class Car extends Vechicle{
 	
-	public void applyBrake() {
+	final int num =10;
+	public final void applyBrake() {
 		System.out.println("Apply Brake - Car");
 	}
 	
