@@ -5,7 +5,6 @@ import org.testleaf.leaftaps.seleniumbase.ProjectSpecificMethods;
 public class DuplicateLead extends ProjectSpecificMethods{
 
 	public  void runDuplicateLead() throws InterruptedException {
-		login();
 		driver.findElementByLinkText("Leads").click();
 		driver.findElementByLinkText("Find Leads").click();
 		driver.findElementByXPath("//span[text()='Phone']").click();

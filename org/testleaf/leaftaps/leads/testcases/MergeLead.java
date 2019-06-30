@@ -9,7 +9,6 @@ import org.testleaf.leaftaps.seleniumbase.ProjectSpecificMethods;
 public class MergeLead extends ProjectSpecificMethods{
 
 	public void runMergeLead() throws InterruptedException {
-		login();
 		driver.findElementByLinkText("Leads").click();
 		driver.findElementByLinkText("Merge Leads").click();
 		driver.findElementByXPath("//img[@alt='Lookup']").click();
