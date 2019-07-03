@@ -1,0 +1,149 @@
+<parameter name="url" value="http://leaftaps.com/opentaps"/>
+<parameter name="uName" value="DemoSalesManager"/>
+<parameter name="pwd" value="crmsfa"/>
+--------XXXX
+public class Readexcel1 {
+
+	@Test
+	public String[][] readExcell(String name) throws IOException
+	{
+		
+		XSSFWorkbook wbook=new XSSFWorkbook("./utils/"+name+".xlsx");
+		XSSFSheet wsheet=wbook.getSheet("Sheet1");
+		int RowCount = wsheet.getLastRowNum();
+		int ColumnCount=wsheet.getRow(0).getLastCellNum();
+		String[][]data=new String[RowCount][ColumnCount];
+		for (int i=1;i<=RowCount;i++) {
+			XSSFRow row = wsheet.getRow(i);
+			for(int j=0;j<ColumnCount;j++)
+			{
+				System.out.println(row.getCell(j));
+				XSSFCell cell = row.getCell(j);
+				data[i-1][j]=cell.getStringCellValue();
+			}			
+		}
+		
+		return data;
+	}
+}
+---------------------
+@test
+public class IeTest extends Projectspec {
+
+	@Test(dataProvider="fetchdata")
+	public  void runCreateLead(String cname,String fname,String lname) throws Exception
+	{
+		driver.findElement(By.linkText("Create Lead")).click();
+		driver.findElement(By.id("createLeadForm_companyName")).click();
+		driver.findElement(By.id("createLeadForm_companyName")).sendKeys(cname,Keys.TAB);
+		driver.findElement(By.id("createLeadForm_firstName")).click();
+		driver.findElement(By.id("createLeadForm_firstName")).sendKeys(fname,Keys.TAB);
+		driver.findElement(By.id("createLeadForm_lastName")).click();
+		driver.findElement(By.id("createLeadForm_lastName")).sendKeys(lname,Keys.TAB);
+		driver.findElement(By.className("smallSubmit")).click();
+
+-----------
+@other
+public class Projectspec {
+public WebDriver driver;
+	@BeforeMethod
+	@Parameters({"url","uName","pwd"})
+	public void Login(String url,String uName,String pwd) throws Exception 
+    {
+System.setProperty("webdriver.ie.driver","./drivers/IEDriver/IEDriverServer.exe");
+		
+		DesiredCapabilities cap=DesiredCapabilities.internetExplorer();
+		cap.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
+		cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		
+		Thread.sleep(2000);
+		
+		 driver=new InternetExplorerDriver();
+		driver.get(url);
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+		Thread.sleep(2000);
+		driver.findElement(By.id("username")).click();
+		driver.findElement(By.id("username")).sendKeys(uName,Keys.TAB);
+		
+		Thread.sleep(2000);
+		driver.findElement(By.linkText("CRM/SFA")).click();
+		
+	}
+
+
+@DataProvider(name="fetchdata")
+public String[][] getData() throws IOException
+{
+	Readexcel1 re=new Readexcel1();
+	return re.readExcell("itest");
+	}
+}
+-----------XX
+with select:
+WebElement ele = driver.findElementById("createLeadForm_dataSourceId");
+        Select dd= new Select(ele);
+       // dd.selectByVisibleText("Employee"); ByIndex(3);Bvalue(4);
+
+list<webelement> alloption=dd.getoptions();
+for(webelement eachoption : alloptions)
+{syso(eachoption.getText());}
+
+
+without select
+
+WebElement ele = driver.findElement( By.xpath("going inside dd"));
+List options = ele.findElements(By.xpath("for dd value"));
+for(WebElement opt : options){
+        if ("Texas".equals(opt.getText()));
+        opt.click();
+        System.out.println(opt);
+----
+Actions action = new Actions(driver);
+WebElement optionsList = driver.findElement(By.xpath("//span[contains(@class, 'k-dropdown-wrap')]"));
+action.moveToElement(optionsList);
+-------XX
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+
+public class MySQLAccess {
+    private Connection connect = null;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet rs = null;
+
+    public void readDataBase() throws Exception {
+        try {
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://localhost/feedback?"
+                            + "user=sqluser&password=sqluserpw");
+
+            // Statements allow to issue SQL queries to the database
+            statement = connect.createStatement();
+            // Result set get the result of the SQL query
+            rs = statement
+                    .executeQuery("select * from feedback.comments");
+            while(rs.next())  
+		System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+
+    }
+---------------
+setting>>internet options>>security tab>> click each and bottom click the check box
+DesiredCapabilities cap=DesiredCapabilities.internetExplorer();
+cap.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
+cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
