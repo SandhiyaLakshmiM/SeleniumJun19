@@ -1,0 +1,22 @@
+  Rules for Page Object Model
+**********************************
+1. Create Every Page or Section of the Page(Like menu) as Individual java classes
+2. All pages will have to inherit common class
+3. Every verification/action on each element you perform should be a method of the page
+4. Every Method Should return the Page where it will Land.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
